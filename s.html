@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akshat Agrawal — AI Architect & Cybernetic Engineer</title>
+     <link rel="icon" href="logo.png" type="image/png">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js for Immersive 3D Cybernetic Universe -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        linearDark: '#090d16',
+                        cyberCyan: '#00f2fe',
+                        cyberViolet: '#4facfe',
+                        glassPanel: 'rgba(13, 20, 35, 0.75)'
+                    },
+                    fontFamily: {
+                        mono: ['Courier New', 'Courier', 'monospace'],
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .linear-card {
+            background: rgba(13, 20, 35, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 242, 254, 0.15);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+        }
+        .text-glow {
+            text-shadow: 0 0 35px rgba(0, 242, 254, 0.4);
+        }
+        /* Custom sleek scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090d16;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #00f2fe;
+            border-radius: 3px;
+        }
+        /* Scroll reveal initial states */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(60px);
+        }
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-80px);
+        }
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(80px);
+        }
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+    </style>
+</head>
+<body class="bg-linearDark text-gray-100 font-sans overflow-x-hidden selection:bg-cyberCyan selection:text-black">
+
+    <!-- 3D Interactive WebGL Cybernetic Universe Background -->
+    <div id="canvas-container"></div>
+
+    <!-- Linear-Style Floating Top Command Bar -->
+    <header class="fixed top-0 left-0 w-full z-50 px-8 py-4 flex justify-between items-center pointer-events-auto bg-linearDark/80 backdrop-blur-xl border-b border-cyan-500/10">
+        <div class="flex items-center space-x-3">
+            <div class="w-2.5 h-2.5 rounded-full bg-cyberCyan animate-ping"></div>
+            <span class="font-mono text-xs uppercase tracking-widest text-cyberCyan font-bold">AKSHAT AGRAWAL // 2026</span>
+        </div>
+        <nav class="hidden md:flex items-center space-x-8 text-xs font-mono font-semibold tracking-wider text-gray-300 bg-black/40 px-6 py-2 rounded-full border border-cyan-500/15 shadow-md">
+            <a href="#hero" class="hover:text-cyberCyan transition">01. OVERVIEW</a>
+            <a href="#expertise" class="hover:text-cyberCyan transition">02. EXPERTISE</a>
+            <a href="#projects" class="hover:text-cyberCyan transition">03. ARCHIVES</a>
+            <a href="#timeline" class="hover:text-cyberCyan transition">04. TIMELINE</a>
+            <a href="#contact" class="hover:text-cyberCyan transition">05. TRANSMIT</a>
+        </nav>
+        <div >
+          
+          
+        </div>
+    </header>
+
+    <!-- Hero Section (Using CSS Flexbox ordering: Image appears first on phone view via order-1, text via order-2) -->
+    <section id="hero" class="relative min-h-screen flex flex-col justify-center px-8 md:px-16 z-10 pt-28 pb-20">
+        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <!-- Right Side Oval Image Container (Appears FIRST on mobile via order-1, on desktop it stays on right via lg:order-2) -->
+            <div class="lg:col-span-5 reveal-right flex justify-center order-1 lg:order-2 -mt-4 lg:-mt-12">
+                <div class="w-[260px] h-[330px] md:w-[320px] md:h-[420px] rounded-full linear-card border-2 border-cyberCyan/40 flex flex-col items-center justify-center relative overflow-hidden group shadow-2xl">
+                    <img src="pic.jpeg" alt="Akshat Agrawal" class="w-full h-full object-cover object-center transition duration-700 group-hover:scale-105">
+                    <div class="absolute inset-0 border border-cyberCyan/30 rounded-full pointer-events-none"></div>
+                </div>
+            </div>
+
+            <!-- Left Side Content (Appears SECOND on mobile via order-2, on desktop it stays on left via lg:order-1) -->
+            <div class="lg:col-span-7 flex flex-col items-start text-left order-2 lg:order-1">
+                <div class="reveal-up inline-block border border-cyberCyan/40 bg-cyberCyan/10 px-5 py-2 text-xs font-mono text-cyberCyan rounded-full mb-6 tracking-widest uppercase backdrop-blur-md">
+                    COMPUTER SCIENCE (AI) UNDERGRADUATE[cite: 1]
+                </div>
+                
+                <h1 class="reveal-up text-5xl sm:text-7xl md:text-8xl font-extrabold uppercase tracking-tight text-white mb-6 leading-none">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyberCyan to-cyberViolet text-glow">Akshat Agrawal</span>
+                </h1>
+                
+                <p class="reveal-up text-gray-300 text-base md:text-lg font-mono leading-relaxed mb-10 bg-black/50 p-6 rounded-2xl border border-cyan-500/20 backdrop-blur-xl max-w-xl">
+                    Third-year undergraduate building elite RAG architectures, multi-agent LLM systems, and high-performance Python applications reaching 50+ users[cite: 1].
+                </p>
+
+                <div class="reveal-up flex flex-wrap gap-5 font-mono text-xs">
+                    <a href="#projects" class="px-8 py-4 bg-cyberCyan text-black font-extrabold rounded-xl hover:bg-white transition shadow-lg shadow-cyberCyan/30 tracking-wider">
+                        EXPLORE ARCHIVES
+                    </a>
+                    <a href="#contact" class="px-8 py-4 linear-card text-white font-extrabold rounded-xl hover:border-cyberCyan transition tracking-wider">
+                        INITIATE CONTACT
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 font-mono text-xs text-cyberCyan flex flex-col items-center space-y-2 animate-bounce">
+            <span>SCROLL TO EXPLORE</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- Metrics Ticker Bar -->
+    <section class="relative z-10 py-16 border-y border-cyan-500/15 bg-black/70 backdrop-blur-2xl">
+        <div class="max-w-7xl mx-auto px-8 grid grid-cols-2 md:grid-cols-4 gap-8 font-mono">
+            <div class="linear-card p-6 rounded-2xl border-l-4 border-cyberCyan reveal-left">
+                <div class="text-3xl md:text-4xl font-black text-white">3rd Year</div>
+                <div class="text-xs text-cyan-400 mt-2 uppercase tracking-widest">Medicaps Univ[cite: 1]</div>
+            </div>
+            <div class="linear-card p-6 rounded-2xl border-l-4 border-cyberViolet reveal-left">
+                <div class="text-3xl md:text-4xl font-black text-white">50+ Users</div>
+                <div class="text-xs text-blue-400 mt-2 uppercase tracking-widest">AI App Reach[cite: 1]</div>
+            </div>
+            <div class="linear-card p-6 rounded-2xl border-l-4 border-green-400 reveal-right">
+                <div class="text-3xl md:text-4xl font-black text-white">+35% RAG</div>
+                <div class="text-xs text-green-400 mt-2 uppercase tracking-widest">Retrieval Boost[cite: 1]</div>
+            </div>
+            <div class="linear-card p-6 rounded-2xl border-l-4 border-yellow-400 reveal-right">
+                <div class="text-3xl md:text-4xl font-black text-white">100% Safe</div>
+                <div class="text-xs text-yellow-400 mt-2 uppercase tracking-widest">Client Validation[cite: 1]</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Arsenal / Expertise Section -->
+    <section id="expertise" class="relative z-10 py-32 px-8 max-w-7xl mx-auto">
+        <div class="mb-16 reveal-up">
+            <span class="font-mono text-xs text-cyberCyan uppercase tracking-widest">// 02. CORE COMPETENCIES</span>
+            <h2 class="text-4xl md:text-6xl font-black uppercase mt-2 tracking-tight text-white">Technical Arsenal</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="linear-card p-8 rounded-3xl hover:border-cyberCyan transition duration-500 group reveal-left">
+                <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 flex items-center justify-center text-cyberCyan text-2xl mb-6 group-hover:bg-cyberCyan group-hover:text-black transition">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3 class="text-2xl font-bold uppercase text-white mb-3">AI & Multi-Agent Systems</h3>
+                <p class="text-sm text-gray-300 font-mono leading-relaxed">
+                    LangChain, Vector Databases, prompt engineering, and complex multi-agent LLM architectures built using the Gemini API[cite: 1].
+                </p>
+            </div>
+
+            <div class="linear-card p-8 rounded-3xl hover:border-cyberViolet transition duration-500 group reveal-up">
+                <div class="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center text-cyberViolet text-2xl mb-6 group-hover:bg-cyberViolet group-hover:text-black transition">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3 class="text-2xl font-bold uppercase text-white mb-3">Full-Stack & Python Dev</h3>
+                <p class="text-sm text-gray-300 font-mono leading-relaxed">
+                    Streamlit applications, REST APIs, modular command-line pipelines with Typer, and responsive web development with Next.js and TypeScript[cite: 1].
+                </p>
+            </div>
+
+            <div class="linear-card p-8 rounded-3xl hover:border-green-400 transition duration-500 group reveal-right">
+                <div class="w-14 h-14 rounded-2xl bg-green-500/10 flex items-center justify-center text-green-400 text-2xl mb-6 group-hover:bg-green-400 group-hover:text-black transition">
+                    <i class="fas fa-server"></i>
+                </div>
+                <h3 class="text-2xl font-bold uppercase text-white mb-3">RAG & Data Processing</h3>
+                <p class="text-sm text-gray-300 font-mono leading-relaxed">
+                    Real-time retrieval pipelines over complex datasets, technical alarm log categorization, and automated financial futures testnet bots[cite: 1].
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Works Section -->
+    <section id="projects" class="relative z-10 py-32 px-8 max-w-7xl mx-auto">
+        <div class="mb-16 flex flex-col md:flex-row md:items-end justify-between reveal-up">
+            <div>
+                <span class="font-mono text-xs text-cyberViolet uppercase tracking-widest">// 03. CASE STUDIES & LABS</span>
+                <h2 class="text-4xl md:text-6xl font-black uppercase mt-2 tracking-tight text-white">Featured Works</h2>
+            </div>
+            <a href="https://github.com/Akshat144" target="_blank" class="mt-4 md:mt-0 font-mono text-xs text-cyberCyan hover:underline flex items-center space-x-2">
+                <span>VIEW ALL GITHUB REPOSITORIES</span>
+                <i class="fas fa-external-link-alt"></i>
+            </a>
+        </div>
+
+        <div class="space-y-12">
+            <!-- Project 1 -->
+            <div class="linear-card p-8 md:p-12 rounded-3xl hover:border-cyberCyan transition duration-500 reveal-left">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
+                    <div>
+                        <span class="font-mono text-xs text-cyberCyan bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/30">JULY 2026[cite: 1]</span>
+                        <h3 class="text-3xl md:text-4xl font-bold uppercase text-white mt-3">Telecom Support RAG Assistant</h3>
+                    </div>
+                    <a href="https://github.com/Akshat144/Telecom-Support-RAG-Assistant" target="_blank" class="w-12 h-12 rounded-full bg-black border border-cyan-500/40 flex items-center justify-center hover:bg-cyberCyan hover:text-black transition">
+                        <i class="fab fa-github text-xl"></i>
+                    </a>
+                </div>
+                <p class="text-gray-300 max-w-3xl text-base leading-relaxed mb-6 font-mono">
+                    Engineered a RAG-based AI agent using Python and LangChain, integrating a vector database for real-time retrieval over complex datasets. Improved retrieval accuracy by 35% versus standard LLM queries and reduced manual data-mapping time by 50% for technical alarm logs[cite: 1].
+                </p>
+                <div class="flex flex-wrap gap-3 font-mono text-xs">
+                    <span class="bg-black/60 px-3 py-1 rounded border border-cyan-500/30 text-cyberCyan">Python</span>
+                    <span class="bg-black/60 px-3 py-1 rounded border border-cyan-500/30 text-cyberCyan">LangChain</span>
+                    <span class="bg-black/60 px-3 py-1 rounded border border-cyan-500/30 text-cyberCyan">Vector Databases</span>
+                    <span class="bg-black/60 px-3 py-1 rounded border border-cyan-500/30 text-cyberCyan">Streamlit</span>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="linear-card p-8 md:p-12 rounded-3xl hover:border-cyberViolet transition duration-500 reveal-right">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
+                    <div>
+                        <span class="font-mono text-xs text-cyberViolet bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/30">JUNE 2026[cite: 1]</span>
+                        <h3 class="text-3xl md:text-4xl font-bold uppercase text-white mt-3">Binance Futures Trading Bot</h3>
+                    </div>
+                    <a href="https://github.com/Akshat144/AI-TRADING-BOT" target="_blank" class="w-12 h-12 rounded-full bg-black border border-blue-500/40 flex items-center justify-center hover:bg-cyberViolet hover:text-black transition">
+                        <i class="fab fa-github text-xl"></i>
+                    </a>
+                </div>
+                <p class="text-gray-300 max-w-3xl text-base leading-relaxed mb-6 font-mono">
+                    Architected a modular command-line trading application in Python using python-binance to execute orders on Binance Futures Testnet (USDT-M)[cite: 1]. Implemented client-side validation using Typer catching 100% of invalid parameters, cutting API network overhead by 25%[cite: 1].
+                </p>
+                <div class="flex flex-wrap gap-3 font-mono text-xs">
+                    <span class="bg-black/60 px-3 py-1 rounded border border-blue-500/30 text-cyberViolet">python-binance</span>
+                    <span class="bg-black/60 px-3 py-1 rounded border border-blue-500/30 text-cyberViolet">Typer</span>
+                    <span class="bg-black/60 px-3 py-1 rounded border border-blue-500/30 text-cyberViolet">REST APIs</span>
+                </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="linear-card p-8 md:p-12 rounded-3xl hover:border-green-400 transition duration-500 reveal-left">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
+                    <div>
+                        <span class="font-mono text-xs text-green-400 bg-green-500/10 px-3 py-1 rounded-full border border-green-500/30">FEB - MAR 2026[cite: 1]</span>
+                        <h3 class="text-3xl md:text-4xl font-bold uppercase text-white mt-3">EduAgent - Multi-Agent AI Platform</h3>
+                    </div>
+                    <a href="https://github.com/Akshat144/Edu-Agent" target="_blank" class="w-12 h-12 rounded-full bg-black border border-green-500/40 flex items-center justify-center hover:bg-green-400 hover:text-black transition">
+                        <i class="fab fa-github text-xl"></i>
+                    </a>
+                </div>
+                <p class="text-gray-300 max-w-3xl text-base leading-relaxed mb-6 font-mono">
+                    Architected a multi-agent AI system using Python and Gemini API that reduced interview prep time by 40%[cite: 1]. Deployed a high-performance Streamlit interface generating 50+ custom ATS-optimized resumes[cite: 1].
+                </p>
+                <div class="flex flex-wrap gap-3 font-mono text-xs">
+                    <span class="bg-black/60 px-3 py-1 rounded border border-green-500/30 text-green-400">Gemini API</span>
+                    <span class="bg-black/60 px-3 py-1 rounded border border-green-500/30 text-green-400">Multi-Agent Systems</span>
+                    <span class="bg-black/60 px-3 py-1 rounded border border-green-500/30 text-green-400">Streamlit</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience & Education Timeline -->
+    <section id="timeline" class="relative z-10 py-32 px-8 max-w-7xl mx-auto">
+        <div class="mb-16 reveal-up">
+            <span class="font-mono text-xs text-cyberCyan uppercase tracking-widest">// 04. EXPERIENCE & CREDENTIALS</span>
+            <h2 class="text-4xl md:text-6xl font-black uppercase mt-2 tracking-tight text-white">Professional Journey</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="linear-card p-8 md:p-10 rounded-3xl reveal-left">
+                <span class="font-mono text-xs text-cyberCyan">JUL 1 - JUL 15, 2026[cite: 1]</span>
+                <h3 class="text-2xl font-bold uppercase text-white mt-2">AI Web Development Intern</h3>
+                <p class="text-sm text-cyan-400 font-mono mt-1">InAmigos Foundation (Remote)[cite: 1]</p>
+                <p class="text-sm text-gray-300 font-mono mt-4 leading-relaxed">
+                    Developed official organization website with responsive design, smooth horizontal scrolling, and 15+ interactive UI components within a 2-week engagement using Next.js, TypeScript, and Tailwind CSS[cite: 1].
+                </p>
+            </div>
+
+            <div class="linear-card p-8 md:p-10 rounded-3xl reveal-right">
+                <span class="font-mono text-xs text-cyberViolet">AUG 2024 - MAY 2028[cite: 1]</span>
+                <h3 class="text-2xl font-bold uppercase text-white mt-2">B.Tech - Computer Science (AI)</h3>
+                <p class="text-sm text-blue-400 font-mono mt-1">Medicaps University, Indore (CGPA: 7.9/10)[cite: 1]</p>
+                <p class="text-sm text-gray-300 font-mono mt-4 leading-relaxed">
+                    Specializing in artificial intelligence, advanced algorithms, and autonomous multi-agent agentic workflows. Achieved 94.6% in Class 10 Boards[cite: 1].
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Ticker Matrix -->
+    <section class="relative z-10 py-20 border-t border-cyan-500/15 bg-black/60">
+        <div class="max-w-7xl mx-auto px-8 reveal-up">
+            <span class="font-mono text-xs text-cyberCyan uppercase tracking-widest">// VERIFIED MILESTONES</span>
+            <h3 class="text-2xl font-bold uppercase text-white mt-2 mb-8">Certifications</h3>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 font-mono text-xs">
+                <div class="linear-card p-5 rounded-xl reveal-scale">
+                    <div class="text-cyberCyan font-bold">Data Structures & Algos</div>
+                    <div class="text-gray-400 mt-1">GeeksforGeeks (Jul 2026)[cite: 1]</div>
+                </div>
+                <div class="linear-card p-5 rounded-xl reveal-scale">
+                    <div class="text-cyberViolet font-bold">Python Developer</div>
+                    <div class="text-gray-400 mt-1">freeCodeCamp (Jul 2026)[cite: 1]</div>
+                </div>
+                <div class="linear-card p-5 rounded-xl reveal-scale">
+                    <div class="text-green-400 font-bold">Software Engineer</div>
+                    <div class="text-gray-400 mt-1">HackerRank (Jun 2026)[cite: 1]</div>
+                </div>
+                <div class="linear-card p-5 rounded-xl reveal-scale">
+                    <div class="text-yellow-400 font-bold">GenAI Data Analytics</div>
+                    <div class="text-gray-400 mt-1">Tata Forage (Oct 2025)[cite: 1]</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Contact Transmission -->
+    <footer id="contact" class="relative z-10 py-32 px-8 bg-linearDark border-t border-cyan-500/15 text-center">
+        <div class="max-w-4xl mx-auto reveal-up">
+            <span class="font-mono text-xs text-cyberCyan uppercase tracking-widest">// 05. TRANSMIT SIGNAL</span>
+            <h2 class="text-5xl md:text-8xl font-black uppercase text-white mt-4 tracking-tighter text-glow">Ready for Python & AI Internships</h2>
+            <p class="text-gray-400 font-mono mt-6 max-w-md mx-auto text-sm leading-relaxed">
+                Actively seeking production-ready challenges and engineering roles[cite: 1]. Let's build the future together.
+            </p>
+            <div class="mt-10 flex flex-wrap justify-center gap-6 font-mono text-sm">
+                <a href="mailto:aakshat4444@gmail.com" class="px-8 py-4 bg-cyberCyan text-black font-extrabold rounded-xl hover:bg-white transition shadow-lg shadow-cyberCyan/30">
+                    EMAIL ME
+                </a>
+                <a href="https://linkedin.com/in/akshat-agrawal-b62b8b344" target="_blank" class="px-8 py-4 linear-card text-white font-extrabold rounded-xl hover:border-cyberCyan transition">
+                    LINKEDIN
+                </a>
+                <a href="https://github.com/Akshat144" target="_blank" class="px-8 py-4 linear-card text-white font-extrabold rounded-xl hover:border-cyberCyan transition">
+                    GITHUB
+                </a>
+            </div>
+            <div class="mt-20 font-mono text-xs text-gray-600">
+                AKSHAT AGRAWAL © 2026 // LINEAR CYBERNETIC PORTFOLIO
+            </div>
+        </div>
+    </footer>
+
+    <!-- Three.js Immersive 3D Cybernetic Universe Script -->
+    <script>
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        // Spatial Particle Field
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 2200;
+        const posArray = new Float32Array(particlesCount * 3);
+
+        for(let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 20;
+        }
+
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.016,
+            color: 0x00f2fe,
+            transparent: true,
+            opacity: 0.85,
+            blending: THREE.AdditiveBlending
+        });
+
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+
+        // Central Wireframe Globe / Icosahedron
+        const globeGeometry = new THREE.IcosahedronGeometry(3.2, 2);
+        const globeMaterial = new THREE.MeshBasicMaterial({
+            color: 0x4facfe,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.22
+        });
+        const globe = new THREE.Mesh(globeGeometry, globeMaterial);
+        scene.add(globe);
+
+        camera.position.z = 5;
+
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetX = 0;
+        let targetY = 0;
+
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX - window.innerWidth / 2) / 1000;
+            mouseY = (event.clientY - window.innerHeight / 2) / 1000;
+        });
+
+        let scrollY = window.scrollY;
+        window.addEventListener('scroll', () => {
+            scrollY = window.scrollY;
+        });
+
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const elapsedTime = clock.getElapsedTime();
+
+            targetX = mouseX * 0.8;
+            targetY = mouseY * 0.8;
+
+            particlesMesh.rotation.y = elapsedTime * 0.04 + (targetX * 2);
+            particlesMesh.rotation.x = elapsedTime * 0.02 + (targetY * 2);
+
+            globe.rotation.y = elapsedTime * 0.08;
+            globe.rotation.x = elapsedTime * 0.05;
+
+            camera.position.y = -scrollY * 0.002;
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+
+    <!-- GSAP ScrollTrigger Precision Trigger Points -->
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.utils.toArray('.reveal-up').forEach((elem) => {
+            gsap.to(elem, {
+                scrollTrigger: {
+                    trigger: elem,
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                },
+                y: 0,
+                opacity: 1,
+                duration: 1.0,
+                ease: 'power3.out'
+            });
+        });
+
+        gsap.utils.toArray('.reveal-left').forEach((elem) => {
+            gsap.to(elem, {
+                scrollTrigger: {
+                    trigger: elem,
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                },
+                x: 0,
+                opacity: 1,
+                duration: 1.0,
+                ease: 'power3.out'
+            });
+        });
+
+        gsap.utils.toArray('.reveal-right').forEach((elem) => {
+            gsap.to(elem, {
+                scrollTrigger: {
+                    trigger: elem,
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                },
+                x: 0,
+                opacity: 1,
+                duration: 1.0,
+                ease: 'power3.out'
+            });
+        });
+
+        gsap.utils.toArray('.reveal-scale').forEach((elem) => {
+            gsap.to(elem, {
+                scrollTrigger: {
+                    trigger: elem,
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                },
+                scale: 1,
+                opacity: 1,
+                duration: 0.9,
+                ease: 'back.out(1.5)'
+            });
+        });
+    </script>
+</body>
+</html>
