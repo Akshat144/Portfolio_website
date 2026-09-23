@@ -4,17 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Akshat Agrawal — AI Architect & Cybernetic Engineer</title>
-    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%2300f2fe'/></svg>" type="image/svg+xml">
     
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS from CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Three.js for Immersive 3D Cybernetic Universe -->
+    
+    <!-- Three.js for 3D Background -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <!-- GSAP & ScrollTrigger -->
+    
+    <!-- GSAP for Animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <!-- FontAwesome -->
+    
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts: Inter (for clean, modern typography) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -28,8 +36,8 @@
                         glassPanel: 'rgba(13, 21, 39, 0.72)'
                     },
                     fontFamily: {
-                        mono: ['JetBrains Mono', 'Fira Code', 'Courier New', 'monospace'],
-                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+                        mono: ['Fira Code', 'JetBrains Mono', 'Courier New', 'monospace'],
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'system-ui', 'sans-serif']
                     },
                     animation: {
                         'spin-slow': 'spin 18s linear infinite',
@@ -52,6 +60,19 @@
     </script>
     
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        /* Canvas Background: FIXED Z-INDEX */
         #canvas-container {
             position: fixed;
             top: 0;
@@ -60,6 +81,25 @@
             height: 100vh;
             z-index: 0;
             pointer-events: none;
+        }
+
+        /* Content sits ABOVE the canvas */
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Header: High Z-index to stay on top */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: rgba(8, 12, 21, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 242, 254, 0.1);
         }
 
         .linear-card {
@@ -81,24 +121,27 @@
             text-shadow: 0 0 35px rgba(0, 242, 254, 0.45);
         }
 
-        /* Ambient Hero Halo */
+        /* Cyber Halo Effect */
         .cyber-halo {
             background: radial-gradient(circle at center, rgba(0, 242, 254, 0.25) 0%, rgba(79, 172, 254, 0.12) 40%, transparent 70%);
         }
 
-        /* Sleek scrollbar */
+        /* Scrollbar Styling */
         ::-webkit-scrollbar {
-            width: 6px;
+            width: 8px;
         }
         ::-webkit-scrollbar-track {
             background: #080c15;
         }
         ::-webkit-scrollbar-thumb {
             background: linear-gradient(to bottom, #00f2fe, #4facfe);
-            border-radius: 3px;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to bottom, #00ffff, #6fb5ff);
         }
 
-        /* Scroll reveal initial states */
+        /* Scroll Reveal Initial States */
         .reveal-up {
             opacity: 0;
             transform: translateY(45px);
@@ -115,492 +158,532 @@
             opacity: 0;
             transform: scale(0.92);
         }
+
+        /* Image Responsive Fix */
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Navigation styling cleanup */
+        nav a {
+            position: relative;
+            color: #d1d5db;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #00f2fe;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+            }
+
+            h1 {
+                font-size: clamp(1.875rem, 5vw, 3.5rem) !important;
+            }
+
+            h2 {
+                font-size: clamp(1.5rem, 4vw, 3rem) !important;
+            }
+        }
     </style>
 </head>
 <body class="bg-linearDark text-gray-100 font-sans overflow-x-hidden selection:bg-cyberCyan selection:text-black antialiased">
 
-    <!-- 3D Interactive WebGL Cybernetic Universe Background -->
+    <!-- 3D Cybernetic Universe Background (Behind Everything) -->
     <div id="canvas-container"></div>
 
-    <!-- Linear Command Header -->
-    <header class="fixed top-0 left-0 w-full z-50 px-6 md:px-12 py-4 flex justify-between items-center bg-linearDark/75 backdrop-blur-2xl border-b border-cyan-500/10">
-        <a href="#hero" class="flex items-center space-x-3 group">
-            <span class="relative flex h-3 w-3">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyberCyan opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-3 w-3 bg-cyberCyan"></span>
-            </span>
-            <span class="font-mono text-xs uppercase tracking-widest text-white font-bold group-hover:text-cyberCyan transition">
-                AKSHAT AGRAWAL
-            </span>
-        </a>
-        
-        <nav class="hidden md:flex items-center space-x-8 text-xs font-mono font-medium tracking-wider text-gray-300 bg-black/40 px-6 py-2.5 rounded-full border border-cyan-500/15 shadow-inner">
-            <a href="#hero" class="hover:text-cyberCyan transition">01. OVERVIEW</a>
-            <a href="#expertise" class="hover:text-cyberCyan transition">02. ARSENAL</a>
-            <a href="#projects" class="hover:text-cyberCyan transition">03. ARCHIVES</a>
-            <a href="#timeline" class="hover:text-cyberCyan transition">04. JOURNEY</a>
-            <a href="#contact" class="hover:text-cyberCyan transition">05. TRANSMIT</a>
-        </nav>
+    <!-- Content Wrapper (Above Background) -->
+    <div class="content-wrapper">
 
-        <div class="flex items-center space-x-3">
-            <a href="#contact" class="hidden sm:inline-flex items-center space-x-2 px-4 py-1.5 rounded-full border border-cyberCyan/40 bg-cyberCyan/10 text-cyberCyan hover:bg-cyberCyan hover:text-black font-mono text-xs tracking-wider font-semibold transition">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>AVAILABLE FOR ROLES</span>
+        <!-- Fixed Header Navigation -->
+        <header class="px-6 md:px-12 py-4 flex justify-between items-center">
+            <a href="#hero" class="flex items-center space-x-3 group hover:opacity-80 transition">
+                <span class="relative flex h-3 w-3 flex-shrink-0">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyberCyan opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-cyberCyan"></span>
+                </span>
+                <span class="font-mono text-xs uppercase tracking-widest text-white font-bold group-hover:text-cyberCyan transition whitespace-nowrap">
+                    AKSHAT AGRAWAL
+                </span>
             </a>
-            <a href="https://github.com/Akshat144" target="_blank" class="w-9 h-9 rounded-full bg-black/50 border border-cyan-500/30 flex items-center justify-center text-gray-300 hover:text-cyberCyan hover:border-cyberCyan transition" aria-label="GitHub">
-                <i class="fab fa-github text-sm"></i>
-            </a>
-        </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section id="hero" class="relative min-h-screen flex flex-col justify-center px-6 md:px-16 z-10 pt-28 pb-16">
-        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             
-            <!-- Left Side Content -->
-            <div class="lg:col-span-7 flex flex-col items-start text-left order-2 lg:order-1">
-                <div class="inline-flex items-center gap-2 border border-cyberCyan/30 bg-cyberCyan/10 px-4 py-1.5 text-xs font-mono text-cyberCyan rounded-full mb-6 tracking-widest uppercase backdrop-blur-md">
-                    <i class="fas fa-terminal text-[10px]"></i>
-                    <span>AI ARCHITECT & PYTHON ENGINEER</span>
-                </div>
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center space-x-8 text-xs font-mono font-medium tracking-wider text-gray-300 bg-black/40 px-6 py-2.5 rounded-full border border-cyan-500/15">
+                <a href="#hero" class="hover:text-cyberCyan transition">01. OVERVIEW</a>
+                <a href="#expertise" class="hover:text-cyberCyan transition">02. ARSENAL</a>
+                <a href="#projects" class="hover:text-cyberCyan transition">03. ARCHIVES</a>
+                <a href="#timeline" class="hover:text-cyberCyan transition">04. JOURNEY</a>
+                <a href="#contact" class="hover:text-cyberCyan transition">05. TRANSMIT</a>
+            </nav>
+
+            <!-- Right Side Actions -->
+            <div class="flex items-center space-x-3">
+                <a href="#contact" class="hidden sm:inline-flex items-center space-x-2 px-4 py-1.5 rounded-full border border-cyberCyan/40 bg-cyberCyan/10 text-cyberCyan hover:bg-cyberCyan hover:text-black font-mono text-xs tracking-wider font-semibold transition whitespace-nowrap">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span>AVAILABLE</span>
+                </a>
+                <a href="https://github.com/Akshat144" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-full bg-black/50 border border-cyan-500/30 flex items-center justify-center text-gray-300 hover:text-cyberCyan hover:border-cyberCyan transition" aria-label="GitHub">
+                    <i class="fab fa-github text-sm"></i>
+                </a>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section id="hero" class="min-h-screen flex flex-col justify-center px-6 md:px-16 pt-32 pb-16 md:pt-28 md:pb-16">
+            <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
                 
-                <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold uppercase tracking-tight text-white mb-6 leading-tight">
-                    Engineering <br>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyberCyan via-teal-300 to-cyberViolet text-glow">
-                        Autonomous AI
-                    </span> & Systems.
-                </h1>
-                
-                <p class="text-gray-300 text-sm md:text-base font-mono leading-relaxed mb-8 bg-black/40 p-5 md:p-6 rounded-2xl border border-cyan-500/20 backdrop-blur-xl max-w-xl">
-                    CS (AI) undergraduate specializing in production RAG pipelines, autonomous multi-agent swarms with Gemini API, and high-performance trading engines.
-                </p>
-
-                <div class="flex flex-wrap items-center gap-4 font-mono text-xs w-full sm:w-auto">
-                    <a href="#projects" class="w-full sm:w-auto text-center px-7 py-3.5 bg-cyberCyan text-black font-extrabold rounded-xl hover:bg-white transition shadow-lg shadow-cyberCyan/25 tracking-wider">
-                        EXPLORE ARCHIVES <i class="fas fa-arrow-right ml-2 text-[10px]"></i>
-                    </a>
-                    <a href="#contact" class="w-full sm:w-auto text-center px-7 py-3.5 linear-card text-white font-extrabold rounded-xl hover:border-cyberCyan transition tracking-wider">
-                        INITIATE CONTACT
-                    </a>
-                </div>
-            </div>
-
-            <!-- Right Side Clean Cybernetic Avatar -->
-            <div class="lg:col-span-5 flex justify-center items-center order-1 lg:order-2">
-                <div class="relative w-[280px] h-[280px] sm:w-[340px] sm:h-[340px] md:w-[380px] md:h-[380px] flex items-center justify-center animate-float">
-                    
-                    <!-- Ambient Glow Backdrop -->
-                    <div class="absolute inset-0 cyber-halo rounded-full filter blur-2xl -z-10 animate-pulse-glow"></div>
-                    
-                    <!-- Rotating Dashed Orbit Ring -->
-                    <div class="absolute inset-0 border-2 border-dashed border-cyberCyan/30 rounded-full animate-spin-slow pointer-events-none"></div>
-                    
-                    <!-- Inner Thin Accent Ring -->
-                    <div class="absolute inset-4 border border-cyberViolet/30 rounded-full pointer-events-none"></div>
-
-                    <!-- Main Image Hexagon/Squircle Container -->
-                    <div class="relative w-[82%] h-[82%] rounded-3xl overflow-hidden border-2 border-cyberCyan/40 shadow-2xl bg-surfaceDark group">
-                        <img 
-                            src="pic.jpeg" 
-                            alt="Akshat Agrawal" 
-                            class="w-full h-full object-cover object-top filter contrast-[1.05] brightness-95 group-hover:scale-105 group-hover:brightness-100 transition duration-700 ease-out"
-                            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80';"
-                        >
-                        <!-- Tech Scanner Line Overlay -->
-                        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/5 to-transparent opacity-0 group-hover:opacity-100 transition duration-500 pointer-events-none"></div>
-                        <div class="absolute inset-0 border border-cyberCyan/20 rounded-3xl pointer-events-none"></div>
+                <!-- Left: Text Content -->
+                <div class="lg:col-span-7 flex flex-col items-start text-left order-2 lg:order-1">
+                    <div class="inline-flex items-center gap-2 border border-cyberCyan/30 bg-cyberCyan/10 px-4 py-1.5 text-xs font-mono text-cyberCyan rounded-full mb-6 tracking-widest uppercase backdrop-blur-md">
+                        <i class="fas fa-terminal text-[10px]"></i>
+                        <span>AI ARCHITECT & PYTHON ENGINEER</span>
                     </div>
+                    
+                    <h1 class="text-5xl sm:text-6xl md:text-7xl font-extrabold uppercase tracking-tight text-white mb-6 leading-tight font-sans">
+                        Engineering <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyberCyan via-teal-300 to-cyberViolet text-glow">
+                            Autonomous AI
+                        </span> & Systems.
+                    </h1>
+                    
+                    <p class="text-gray-300 text-sm md:text-base font-mono leading-relaxed mb-8 bg-black/40 p-5 md:p-6 rounded-2xl border border-cyan-500/20 backdrop-blur-xl max-w-xl">
+                        CS (AI) undergraduate specializing in production RAG pipelines, autonomous multi-agent swarms with Gemini API, and high-performance trading engines.
+                    </p>
 
-                    <!-- Floating Badge: System Online -->
-                    <div class="absolute -bottom-2 -left-2 linear-card px-4 py-2 rounded-xl flex items-center space-x-2 border border-cyan-400/30 shadow-xl">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                        <span class="font-mono text-[11px] text-gray-200 uppercase tracking-widest font-semibold">LLM Orchestrator</span>
-                    </div>
-
-                    <!-- Floating Badge: Performance Metric -->
-                    <div class="absolute -top-2 -right-2 linear-card px-3.5 py-1.5 rounded-xl border border-cyan-400/30 font-mono text-[11px] text-cyberCyan shadow-xl">
-                        <i class="fas fa-microchip mr-1.5"></i>RAG +35%
+                    <div class="flex flex-col sm:flex-row flex-wrap items-center gap-4 font-mono text-xs w-full sm:w-auto">
+                        <a href="#projects" class="w-full sm:w-auto text-center px-7 py-3.5 bg-cyberCyan text-black font-extrabold rounded-xl hover:bg-white transition shadow-lg shadow-cyberCyan/25 tracking-wider">
+                            EXPLORE ARCHIVES <i class="fas fa-arrow-right ml-2 text-[10px]"></i>
+                        </a>
+                        <a href="#contact" class="w-full sm:w-auto text-center px-7 py-3.5 linear-card text-white font-extrabold rounded-xl hover:border-cyberCyan transition tracking-wider">
+                            INITIATE CONTACT
+                        </a>
                     </div>
                 </div>
-            </div>
 
-        </div>
+                <!-- Right: Avatar Section -->
+                <div class="lg:col-span-5 flex justify-center items-center order-1 lg:order-2 w-full">
+                    <div class="relative w-[260px] h-[260px] sm:w-[320px] sm:h-[320px] md:w-[360px] md:h-[360px] flex items-center justify-center animate-float flex-shrink-0">
+                        
+                        <!-- Ambient Glow -->
+                        <div class="absolute inset-0 cyber-halo rounded-full filter blur-2xl -z-10 animate-pulse-glow"></div>
+                        
+                        <!-- Rotating Orbit Ring -->
+                        <div class="absolute inset-0 border-2 border-dashed border-cyberCyan/30 rounded-full animate-spin-slow pointer-events-none"></div>
+                        
+                        <!-- Inner Accent Ring -->
+                        <div class="absolute inset-4 border border-cyberViolet/30 rounded-full pointer-events-none"></div>
 
-        <!-- Scroll Indicator -->
-        <a href="#expertise" class="absolute bottom-6 left-1/2 transform -translate-x-1/2 font-mono text-xs text-cyberCyan/80 hover:text-cyberCyan flex flex-col items-center space-y-2 transition">
-            <span class="tracking-widest uppercase text-[10px]">SCROLL TO EXPLORE</span>
-            <i class="fas fa-chevron-down animate-bounce"></i>
-        </a>
-    </section>
+                        <!-- Profile Image Container -->
+                        <div class="relative w-[82%] h-[82%] rounded-3xl overflow-hidden border-2 border-cyberCyan/40 shadow-2xl bg-surfaceDark group flex-shrink-0">
+                            <img 
+                                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect fill='%230d1527' width='400' height='400'/%3E%3Ccircle cx='200' cy='150' r='60' fill='%2300f2fe' opacity='0.3'/%3E%3Crect x='100' y='250' width='200' height='120' fill='%234facfe' opacity='0.2'/%3E%3C/svg%3E"
+                                alt="Akshat Agrawal - AI Architect" 
+                                class="w-full h-full object-cover object-center filter contrast-[1.05] brightness-95 group-hover:scale-105 group-hover:brightness-100 transition duration-700 ease-out"
+                            >
+                            <!-- Scanner Line Overlay -->
+                            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/5 to-transparent opacity-0 group-hover:opacity-100 transition duration-500 pointer-events-none"></div>
+                            <div class="absolute inset-0 border border-cyberCyan/20 rounded-3xl pointer-events-none"></div>
+                        </div>
 
-    <!-- Metrics Ticker Bar -->
-    <section class="relative z-10 py-12 border-y border-cyan-500/15 bg-black/60 backdrop-blur-2xl">
-        <div class="max-w-7xl mx-auto px-6 md:px-8 grid grid-cols-2 md:grid-cols-4 gap-6 font-mono">
-            <div class="linear-card p-6 rounded-2xl border-l-4 border-cyberCyan reveal-left">
-                <div class="text-3xl md:text-4xl font-black text-white">3rd Year</div>
-                <div class="text-xs text-cyan-400 mt-2 uppercase tracking-widest">Medicaps Univ</div>
-            </div>
-            <div class="linear-card p-6 rounded-2xl border-l-4 border-cyberViolet reveal-left">
-                <div class="text-3xl md:text-4xl font-black text-white">50+ Users</div>
-                <div class="text-xs text-blue-400 mt-2 uppercase tracking-widest">AI App Reach</div>
-            </div>
-            <div class="linear-card p-6 rounded-2xl border-l-4 border-emerald-400 reveal-right">
-                <div class="text-3xl md:text-4xl font-black text-white">+35% RAG</div>
-                <div class="text-xs text-emerald-400 mt-2 uppercase tracking-widest">Retrieval Boost</div>
-            </div>
-            <div class="linear-card p-6 rounded-2xl border-l-4 border-amber-400 reveal-right">
-                <div class="text-3xl md:text-4xl font-black text-white">100% Safe</div>
-                <div class="text-xs text-amber-400 mt-2 uppercase tracking-widest">Client Validation</div>
-            </div>
-        </div>
-    </section>
+                        <!-- Badge: System Status -->
+                        <div class="absolute -bottom-2 -left-2 linear-card px-4 py-2 rounded-xl flex items-center space-x-2 border border-cyan-400/30 shadow-xl text-nowrap">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping flex-shrink-0"></span>
+                            <span class="font-mono text-[11px] text-gray-200 uppercase tracking-widest font-semibold">LLM Orchestrator</span>
+                        </div>
 
-    <!-- Technical Arsenal / Expertise Section -->
-    <section id="expertise" class="relative z-10 py-28 px-6 md:px-8 max-w-7xl mx-auto">
-        <div class="mb-14 reveal-up">
-            <span class="font-mono text-xs text-cyberCyan uppercase tracking-widest">02. CORE COMPETENCIES</span>
-            <h2 class="text-3xl md:text-5xl font-black uppercase mt-2 tracking-tight text-white">Technical Arsenal</h2>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="linear-card p-8 rounded-3xl group reveal-left">
-                <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 flex items-center justify-center text-cyberCyan text-2xl mb-6 group-hover:bg-cyberCyan group-hover:text-black transition">
-                    <i class="fas fa-brain"></i>
+                        <!-- Badge: Metric -->
+                        <div class="absolute -top-2 -right-2 linear-card px-3.5 py-1.5 rounded-xl border border-cyan-400/30 font-mono text-[11px] text-cyberCyan shadow-xl whitespace-nowrap">
+                            <i class="fas fa-microchip mr-1.5"></i>RAG +35%
+                        </div>
+                    </div>
                 </div>
-                <h3 class="text-xl font-bold uppercase text-white mb-3">AI & Multi-Agent Systems</h3>
-                <p class="text-sm text-gray-300 font-mono leading-relaxed">
-                    LangChain, Vector Databases, prompt orchestration, and autonomous multi-agent LLM systems with Gemini API.
-                </p>
+
             </div>
 
-            <div class="linear-card p-8 rounded-3xl group reveal-up">
-                <div class="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center text-cyberViolet text-2xl mb-6 group-hover:bg-cyberViolet group-hover:text-black transition">
-                    <i class="fas fa-code"></i>
-                </div>
-                <h3 class="text-xl font-bold uppercase text-white mb-3">Full-Stack & Python Dev</h3>
-                <p class="text-sm text-gray-300 font-mono leading-relaxed">
-                    Production Streamlit tools, REST microservices, modular CLI pipelines with Typer, and Next.js / TypeScript frontends.
-                </p>
-            </div>
-
-            <div class="linear-card p-8 rounded-3xl group reveal-right">
-                <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 text-2xl mb-6 group-hover:bg-emerald-400 group-hover:text-black transition">
-                    <i class="fas fa-server"></i>
-                </div>
-                <h3 class="text-xl font-bold uppercase text-white mb-3">RAG & Data Processing</h3>
-                <p class="text-sm text-gray-300 font-mono leading-relaxed">
-                    Low-latency retrieval pipelines over enterprise knowledge bases, log taxonomy models, and testnet algorithmic bots.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Featured Works Section -->
-    <section id="projects" class="relative z-10 py-28 px-6 md:px-8 max-w-7xl mx-auto">
-        <div class="mb-14 flex flex-col md:flex-row md:items-end justify-between reveal-up">
-            <div>
-                <span class="font-mono text-xs text-cyberViolet uppercase tracking-widest">03. CASE STUDIES & LABS</span>
-                <h2 class="text-3xl md:text-5xl font-black uppercase mt-2 tracking-tight text-white">Featured Works</h2>
-            </div>
-            <a href="https://github.com/Akshat144" target="_blank" class="mt-4 md:mt-0 font-mono text-xs text-cyberCyan hover:underline flex items-center space-x-2">
-                <span>VIEW ALL GITHUB REPOSITORIES</span>
-                <i class="fas fa-external-link-alt text-[10px]"></i>
+            <!-- Scroll Indicator -->
+            <a href="#expertise" class="absolute bottom-6 left-1/2 transform -translate-x-1/2 font-mono text-xs text-cyberCyan/80 hover:text-cyberCyan flex flex-col items-center space-y-2 transition">
+                <span class="tracking-widest uppercase text-[10px]">SCROLL TO EXPLORE</span>
+                <i class="fas fa-chevron-down animate-bounce"></i>
             </a>
-        </div>
+        </section>
 
-        <div class="space-y-8">
-            <!-- Project 1 -->
-            <div class="linear-card p-8 md:p-10 rounded-3xl reveal-left">
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
-                    <div>
-                        <span class="font-mono text-[11px] text-cyberCyan bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/30">JULY 2026</span>
-                        <h3 class="text-2xl md:text-3xl font-bold uppercase text-white mt-3">Telecom Support RAG Assistant</h3>
+        <!-- Metrics Bar -->
+        <section class="py-12 border-y border-cyan-500/15 bg-black/60 backdrop-blur-2xl px-6 md:px-8">
+            <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 font-mono">
+                <div class="linear-card p-6 rounded-2xl border-l-4 border-cyberCyan reveal-left">
+                    <div class="text-3xl md:text-4xl font-black text-white">3rd Year</div>
+                    <div class="text-xs text-cyan-400 mt-2 uppercase tracking-widest">Medicaps Univ</div>
+                </div>
+                <div class="linear-card p-6 rounded-2xl border-l-4 border-cyberViolet reveal-left">
+                    <div class="text-3xl md:text-4xl font-black text-white">50+ Users</div>
+                    <div class="text-xs text-blue-400 mt-2 uppercase tracking-widest">AI App Reach</div>
+                </div>
+                <div class="linear-card p-6 rounded-2xl border-l-4 border-emerald-400 reveal-right">
+                    <div class="text-3xl md:text-4xl font-black text-white">+35% RAG</div>
+                    <div class="text-xs text-emerald-400 mt-2 uppercase tracking-widest">Retrieval Boost</div>
+                </div>
+                <div class="linear-card p-6 rounded-2xl border-l-4 border-amber-400 reveal-right">
+                    <div class="text-3xl md:text-4xl font-black text-white">100% Safe</div>
+                    <div class="text-xs text-amber-400 mt-2 uppercase tracking-widest">Client Validation</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Expertise Section -->
+        <section id="expertise" class="py-28 px-6 md:px-8 max-w-7xl mx-auto">
+            <div class="mb-14 reveal-up">
+                <span class="font-mono text-xs text-cyberCyan uppercase tracking-widest">02. CORE COMPETENCIES</span>
+                <h2 class="text-4xl md:text-5xl font-black uppercase mt-2 tracking-tight text-white font-sans">Technical Arsenal</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="linear-card p-8 rounded-3xl group reveal-left">
+                    <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 flex items-center justify-center text-cyberCyan text-2xl mb-6 group-hover:bg-cyberCyan group-hover:text-black transition">
+                        <i class="fas fa-brain"></i>
                     </div>
-                    <a href="https://github.com/Akshat144/Telecom-Support-RAG-Assistant" target="_blank" class="w-11 h-11 rounded-full bg-black/60 border border-cyan-500/40 flex items-center justify-center hover:bg-cyberCyan hover:text-black transition" aria-label="GitHub Repository">
-                        <i class="fab fa-github text-lg"></i>
-                    </a>
+                    <h3 class="text-xl font-bold uppercase text-white mb-3 font-sans">AI & Multi-Agent Systems</h3>
+                    <p class="text-sm text-gray-300 font-mono leading-relaxed">
+                        LangChain, Vector Databases, prompt orchestration, and autonomous multi-agent LLM systems with Gemini API.
+                    </p>
                 </div>
-                <p class="text-gray-300 max-w-3xl text-sm leading-relaxed mb-6 font-mono">
-                    Engineered a RAG-based AI agent using Python and LangChain, integrating a vector database for real-time retrieval over complex datasets. Improved retrieval accuracy by 35% versus standard LLM queries and reduced manual data-mapping time by 50% for technical alarm logs.
-                </p>
-                <div class="flex flex-wrap gap-2.5 font-mono text-xs">
-                    <span class="bg-black/60 px-3 py-1 rounded border border-cyan-500/30 text-cyberCyan">Python</span>
-                    <span class="bg-black/60 px-3 py-1 rounded border border-cyan-500/30 text-cyberCyan">LangChain</span>
-                    <span class="bg-black/60 px-3 py-1 rounded border border-cyan-500/30 text-cyberCyan">Vector Databases</span>
-                    <span class="bg-black/60 px-3 py-1 rounded border border-cyan-500/30 text-cyberCyan">Streamlit</span>
-                </div>
-            </div>
 
-            <!-- Project 2 -->
-            <div class="linear-card p-8 md:p-10 rounded-3xl reveal-right">
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
-                    <div>
-                        <span class="font-mono text-[11px] text-cyberViolet bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/30">JUNE 2026</span>
-                        <h3 class="text-2xl md:text-3xl font-bold uppercase text-white mt-3">Binance Futures Trading Bot</h3>
+                <div class="linear-card p-8 rounded-3xl group reveal-up">
+                    <div class="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center text-cyberViolet text-2xl mb-6 group-hover:bg-cyberViolet group-hover:text-black transition">
+                        <i class="fas fa-code"></i>
                     </div>
-                    <a href="https://github.com/Akshat144/AI-TRADING-BOT" target="_blank" class="w-11 h-11 rounded-full bg-black/60 border border-blue-500/40 flex items-center justify-center hover:bg-cyberViolet hover:text-black transition" aria-label="GitHub Repository">
-                        <i class="fab fa-github text-lg"></i>
-                    </a>
+                    <h3 class="text-xl font-bold uppercase text-white mb-3 font-sans">Full-Stack & Python Dev</h3>
+                    <p class="text-sm text-gray-300 font-mono leading-relaxed">
+                        Production Streamlit tools, REST microservices, modular CLI pipelines with Typer, and Next.js / TypeScript frontends.
+                    </p>
                 </div>
-                <p class="text-gray-300 max-w-3xl text-sm leading-relaxed mb-6 font-mono">
-                    Architected a modular command-line trading application in Python using python-binance to execute orders on Binance Futures Testnet (USDT-M). Implemented client-side validation using Typer catching 100% of invalid parameters, cutting API network overhead by 25%.
-                </p>
-                <div class="flex flex-wrap gap-2.5 font-mono text-xs">
-                    <span class="bg-black/60 px-3 py-1 rounded border border-blue-500/30 text-cyberViolet">python-binance</span>
-                    <span class="bg-black/60 px-3 py-1 rounded border border-blue-500/30 text-cyberViolet">Typer</span>
-                    <span class="bg-black/60 px-3 py-1 rounded border border-blue-500/30 text-cyberViolet">REST APIs</span>
-                </div>
-            </div>
 
-            <!-- Project 3 -->
-            <div class="linear-card p-8 md:p-10 rounded-3xl reveal-left">
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
-                    <div>
-                        <span class="font-mono text-[11px] text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/30">FEB - MAR 2026</span>
-                        <h3 class="text-2xl md:text-3xl font-bold uppercase text-white mt-3">EduAgent - Multi-Agent AI Platform</h3>
+                <div class="linear-card p-8 rounded-3xl group reveal-right">
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 text-2xl mb-6 group-hover:bg-emerald-400 group-hover:text-black transition">
+                        <i class="fas fa-server"></i>
                     </div>
-                    <a href="https://github.com/Akshat144/Edu-Agent" target="_blank" class="w-11 h-11 rounded-full bg-black/60 border border-emerald-500/40 flex items-center justify-center hover:bg-emerald-400 hover:text-black transition" aria-label="GitHub Repository">
-                        <i class="fab fa-github text-lg"></i>
-                    </a>
-                </div>
-                <p class="text-gray-300 max-w-3xl text-sm leading-relaxed mb-6 font-mono">
-                    Architected a multi-agent AI system using Python and Gemini API that reduced interview prep time by 40%. Deployed a high-performance Streamlit interface generating 50+ custom ATS-optimized resumes.
-                </p>
-                <div class="flex flex-wrap gap-2.5 font-mono text-xs">
-                    <span class="bg-black/60 px-3 py-1 rounded border border-emerald-500/30 text-emerald-400">Gemini API</span>
-                    <span class="bg-black/60 px-3 py-1 rounded border border-emerald-500/30 text-emerald-400">Multi-Agent Systems</span>
-                    <span class="bg-black/60 px-3 py-1 rounded border border-emerald-500/30 text-emerald-400">Streamlit</span>
+                    <h3 class="text-xl font-bold uppercase text-white mb-3 font-sans">RAG & Data Processing</h3>
+                    <p class="text-sm text-gray-300 font-mono leading-relaxed">
+                        Low-latency retrieval pipelines over enterprise knowledge bases, log taxonomy models, and testnet algorithmic bots.
+                    </p>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Experience & Education Timeline -->
-    <section id="timeline" class="relative z-10 py-28 px-6 md:px-8 max-w-7xl mx-auto">
-        <div class="mb-14 reveal-up">
-            <span class="font-mono text-xs text-cyberCyan uppercase tracking-widest">04. EXPERIENCE & CREDENTIALS</span>
-            <h2 class="text-3xl md:text-5xl font-black uppercase mt-2 tracking-tight text-white">Professional Journey</h2>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="linear-card p-8 md:p-10 rounded-3xl reveal-left">
-                <span class="font-mono text-xs text-cyberCyan bg-cyan-500/10 px-2.5 py-1 rounded border border-cyan-500/30">JUL 1 - JUL 15, 2026</span>
-                <h3 class="text-xl md:text-2xl font-bold uppercase text-white mt-3">AI Web Development Intern</h3>
-                <p class="text-sm text-cyan-400 font-mono mt-1">InAmigos Foundation (Remote)</p>
-                <p class="text-sm text-gray-300 font-mono mt-4 leading-relaxed">
-                    Developed official organization website with responsive design, smooth horizontal scrolling, and 15+ interactive UI components within a 2-week engagement using Next.js, TypeScript, and Tailwind CSS.
-                </p>
-            </div>
-
-            <div class="linear-card p-8 md:p-10 rounded-3xl reveal-right">
-                <span class="font-mono text-xs text-cyberViolet bg-blue-500/10 px-2.5 py-1 rounded border border-blue-500/30">AUG 2024 - MAY 2028</span>
-                <h3 class="text-xl md:text-2xl font-bold uppercase text-white mt-3">B.Tech - Computer Science (AI)</h3>
-                <p class="text-sm text-blue-400 font-mono mt-1">Medicaps University, Indore (CGPA: 7.9/10)</p>
-                <p class="text-sm text-gray-300 font-mono mt-4 leading-relaxed">
-                    Specializing in artificial intelligence, advanced algorithms, and autonomous multi-agent agentic workflows. Achieved 94.6% in Class 10 Boards.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Certifications Ticker Matrix -->
-    <section class="relative z-10 py-20 border-t border-cyan-500/15 bg-black/60">
-        <div class="max-w-7xl mx-auto px-6 md:px-8 reveal-up">
-            <span class="font-mono text-xs text-cyberCyan uppercase tracking-widest">VERIFIED MILESTONES</span>
-            <h3 class="text-2xl font-bold uppercase text-white mt-2 mb-8">Certifications</h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 font-mono text-xs">
-                <div class="linear-card p-5 rounded-xl reveal-scale">
-                    <div class="text-cyberCyan font-bold">Data Structures & Algos</div>
-                    <div class="text-gray-400 mt-1">GeeksforGeeks (Jul 2026)</div>
+        <!-- Projects Section -->
+        <section id="projects" class="py-28 px-6 md:px-8 max-w-7xl mx-auto">
+            <div class="mb-14 flex flex-col md:flex-row md:items-end justify-between reveal-up">
+                <div>
+                    <span class="font-mono text-xs text-cyberViolet uppercase tracking-widest">03. CASE STUDIES & LABS</span>
+                    <h2 class="text-4xl md:text-5xl font-black uppercase mt-2 tracking-tight text-white font-sans">Featured Works</h2>
                 </div>
-                <div class="linear-card p-5 rounded-xl reveal-scale">
-                    <div class="text-cyberViolet font-bold">Python Developer</div>
-                    <div class="text-gray-400 mt-1">freeCodeCamp (Jul 2026)</div>
-                </div>
-                <div class="linear-card p-5 rounded-xl reveal-scale">
-                    <div class="text-emerald-400 font-bold">Software Engineer</div>
-                    <div class="text-gray-400 mt-1">HackerRank (Jun 2026)</div>
-                </div>
-                <div class="linear-card p-5 rounded-xl reveal-scale">
-                    <div class="text-amber-400 font-bold">GenAI Data Analytics</div>
-                    <div class="text-gray-400 mt-1">Tata Forage (Oct 2025)</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer Contact Transmission -->
-    <footer id="contact" class="relative z-10 py-28 px-6 md:px-8 bg-linearDark border-t border-cyan-500/15 text-center">
-        <div class="max-w-4xl mx-auto reveal-up">
-            <span class="font-mono text-xs text-cyberCyan uppercase tracking-widest">05. TRANSMIT SIGNAL</span>
-            <h2 class="text-4xl sm:text-6xl md:text-7xl font-black uppercase text-white mt-4 tracking-tighter text-glow">Ready for Python & AI Roles</h2>
-            <p class="text-gray-400 font-mono mt-5 max-w-md mx-auto text-sm leading-relaxed">
-                Actively seeking production-ready engineering opportunities and collaborative challenges.
-            </p>
-            <div class="mt-8 flex flex-wrap justify-center gap-4 font-mono text-xs md:text-sm">
-                <a href="mailto:aakshat4444@gmail.com" class="px-7 py-3.5 bg-cyberCyan text-black font-extrabold rounded-xl hover:bg-white transition shadow-lg shadow-cyberCyan/25">
-                    EMAIL ME
-                </a>
-                <a href="https://linkedin.com/in/akshat-agrawal-b62b8b344" target="_blank" class="px-7 py-3.5 linear-card text-white font-extrabold rounded-xl hover:border-cyberCyan transition">
-                    LINKEDIN
-                </a>
-                <a href="https://github.com/Akshat144" target="_blank" class="px-7 py-3.5 linear-card text-white font-extrabold rounded-xl hover:border-cyberCyan transition">
-                    GITHUB
+                <a href="https://github.com/Akshat144" target="_blank" rel="noopener noreferrer" class="mt-4 md:mt-0 font-mono text-xs text-cyberCyan hover:underline flex items-center space-x-2 hover:text-white transition whitespace-nowrap">
+                    <span>VIEW ALL GITHUB REPOSITORIES</span>
+                    <i class="fas fa-external-link-alt text-[10px]"></i>
                 </a>
             </div>
-            <div class="mt-16 font-mono text-[11px] text-gray-500">
-                AKSHAT AGRAWAL © 2026 // CYBERNETIC LINEAR PORTFOLIO
-            </div>
-        </div>
-    </footer>
 
-    <!-- Three.js Ambient Particle Space -->
+            <div class="space-y-8">
+                <!-- Project 1 -->
+                <div class="linear-card p-8 md:p-10 rounded-3xl reveal-left">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                        <div>
+                            <span class="font-mono text-[11px] text-cyberCyan bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/30">JULY 2026</span>
+                            <h3 class="text-2xl md:text-3xl font-bold uppercase text-white mt-3 font-sans">Telecom Support RAG Assistant</h3>
+                        </div>
+                        <a href="https://github.com/Akshat144/Telecom-Support-RAG-Assistant" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-full bg-black/60 border border-cyan-500/40 flex items-center justify-center hover:bg-cyberCyan hover:text-black transition flex-shrink-0" aria-label="GitHub Repository">
+                            <i class="fab fa-github text-lg"></i>
+                        </a>
+                    </div>
+                    <p class="text-gray-300 max-w-3xl text-sm leading-relaxed mb-6 font-mono">
+                        Engineered a RAG-based AI agent using Python and LangChain, integrating a vector database for real-time retrieval over complex datasets. Improved retrieval accuracy by 35% versus standard LLM queries and reduced manual data-mapping time by 50% for technical alarm logs.
+                    </p>
+                    <div class="flex flex-wrap gap-2.5 font-mono text-xs">
+                        <span class="bg-black/60 px-3 py-1 rounded border border-cyan-500/30 text-cyberCyan">Python</span>
+                        <span class="bg-black/60 px-3 py-1 rounded border border-cyan-500/30 text-cyberCyan">LangChain</span>
+                        <span class="bg-black/60 px-3 py-1 rounded border border-cyan-500/30 text-cyberCyan">Vector Databases</span>
+                        <span class="bg-black/60 px-3 py-1 rounded border border-cyan-500/30 text-cyberCyan">Streamlit</span>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="linear-card p-8 md:p-10 rounded-3xl reveal-right">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                        <div>
+                            <span class="font-mono text-[11px] text-cyberViolet bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/30">JUNE 2026</span>
+                            <h3 class="text-2xl md:text-3xl font-bold uppercase text-white mt-3 font-sans">Binance Futures Trading Bot</h3>
+                        </div>
+                        <a href="https://github.com/Akshat144/AI-TRADING-BOT" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-full bg-black/60 border border-blue-500/40 flex items-center justify-center hover:bg-cyberViolet hover:text-black transition flex-shrink-0" aria-label="GitHub Repository">
+                            <i class="fab fa-github text-lg"></i>
+                        </a>
+                    </div>
+                    <p class="text-gray-300 max-w-3xl text-sm leading-relaxed mb-6 font-mono">
+                        Architected a modular command-line trading application in Python using python-binance to execute orders on Binance Futures Testnet (USDT-M). Implemented client-side validation using Typer catching 100% of invalid parameters, cutting API network overhead by 25%.
+                    </p>
+                    <div class="flex flex-wrap gap-2.5 font-mono text-xs">
+                        <span class="bg-black/60 px-3 py-1 rounded border border-blue-500/30 text-cyberViolet">python-binance</span>
+                        <span class="bg-black/60 px-3 py-1 rounded border border-blue-500/30 text-cyberViolet">Typer</span>
+                        <span class="bg-black/60 px-3 py-1 rounded border border-blue-500/30 text-cyberViolet">REST APIs</span>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="linear-card p-8 md:p-10 rounded-3xl reveal-left">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                        <div>
+                            <span class="font-mono text-[11px] text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/30">FEB - MAR 2026</span>
+                            <h3 class="text-2xl md:text-3xl font-bold uppercase text-white mt-3 font-sans">EduAgent - Multi-Agent AI Platform</h3>
+                        </div>
+                        <a href="https://github.com/Akshat144/Edu-Agent" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-full bg-black/60 border border-emerald-500/40 flex items-center justify-center hover:bg-emerald-400 hover:text-black transition flex-shrink-0" aria-label="GitHub Repository">
+                            <i class="fab fa-github text-lg"></i>
+                        </a>
+                    </div>
+                    <p class="text-gray-300 max-w-3xl text-sm leading-relaxed mb-6 font-mono">
+                        Architected a multi-agent AI system using Python and Gemini API that reduced interview prep time by 40%. Deployed a high-performance Streamlit interface generating 50+ custom ATS-optimized resumes.
+                    </p>
+                    <div class="flex flex-wrap gap-2.5 font-mono text-xs">
+                        <span class="bg-black/60 px-3 py-1 rounded border border-emerald-500/30 text-emerald-400">Gemini API</span>
+                        <span class="bg-black/60 px-3 py-1 rounded border border-emerald-500/30 text-emerald-400">Multi-Agent Systems</span>
+                        <span class="bg-black/60 px-3 py-1 rounded border border-emerald-500/30 text-emerald-400">Streamlit</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline Section -->
+        <section id="timeline" class="py-28 px-6 md:px-8 max-w-7xl mx-auto">
+            <div class="mb-14 reveal-up">
+                <span class="font-mono text-xs text-cyberCyan uppercase tracking-widest">04. EXPERIENCE & CREDENTIALS</span>
+                <h2 class="text-4xl md:text-5xl font-black uppercase mt-2 tracking-tight text-white font-sans">Professional Journey</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="linear-card p-8 md:p-10 rounded-3xl reveal-left">
+                    <span class="font-mono text-xs text-cyberCyan bg-cyan-500/10 px-2.5 py-1 rounded border border-cyan-500/30">JUL 1 - JUL 15, 2026</span>
+                    <h3 class="text-xl md:text-2xl font-bold uppercase text-white mt-3 font-sans">AI Web Development Intern</h3>
+                    <p class="text-sm text-cyan-400 font-mono mt-1">InAmigos Foundation (Remote)</p>
+                    <p class="text-sm text-gray-300 font-mono mt-4 leading-relaxed">
+                        Developed official organization website with responsive design, smooth horizontal scrolling, and 15+ interactive UI components within a 2-week engagement using Next.js, TypeScript, and Tailwind CSS.
+                    </p>
+                </div>
+
+                <div class="linear-card p-8 md:p-10 rounded-3xl reveal-right">
+                    <span class="font-mono text-xs text-cyberViolet bg-blue-500/10 px-2.5 py-1 rounded border border-blue-500/30">AUG 2024 - MAY 2028</span>
+                    <h3 class="text-xl md:text-2xl font-bold uppercase text-white mt-3 font-sans">B.Tech - Computer Science (AI)</h3>
+                    <p class="text-sm text-blue-400 font-mono mt-1">Medicaps University, Indore (CGPA: 7.9/10)</p>
+                    <p class="text-sm text-gray-300 font-mono mt-4 leading-relaxed">
+                        Specializing in artificial intelligence, advanced algorithms, and autonomous multi-agent agentic workflows. Achieved 94.6% in Class 10 Boards.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certifications Section -->
+        <section class="py-20 border-t border-cyan-500/15 bg-black/60 px-6 md:px-8">
+            <div class="max-w-7xl mx-auto reveal-up">
+                <span class="font-mono text-xs text-cyberCyan uppercase tracking-widest">VERIFIED MILESTONES</span>
+                <h3 class="text-2xl font-bold uppercase text-white mt-2 mb-8 font-sans">Certifications</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 font-mono text-xs">
+                    <div class="linear-card p-5 rounded-xl reveal-scale">
+                        <div class="text-cyberCyan font-bold">Data Structures & Algos</div>
+                        <div class="text-gray-400 mt-1">GeeksforGeeks (Jul 2026)</div>
+                    </div>
+                    <div class="linear-card p-5 rounded-xl reveal-scale">
+                        <div class="text-cyberViolet font-bold">Python Developer</div>
+                        <div class="text-gray-400 mt-1">freeCodeCamp (Jul 2026)</div>
+                    </div>
+                    <div class="linear-card p-5 rounded-xl reveal-scale">
+                        <div class="text-emerald-400 font-bold">Software Engineer</div>
+                        <div class="text-gray-400 mt-1">HackerRank (Jun 2026)</div>
+                    </div>
+                    <div class="linear-card p-5 rounded-xl reveal-scale">
+                        <div class="text-amber-400 font-bold">GenAI Data Analytics</div>
+                        <div class="text-gray-400 mt-1">Tata Forage (Oct 2025)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer / Contact -->
+        <footer id="contact" class="py-28 px-6 md:px-8 border-t border-cyan-500/15 text-center">
+            <div class="max-w-4xl mx-auto reveal-up">
+                <span class="font-mono text-xs text-cyberCyan uppercase tracking-widest">05. TRANSMIT SIGNAL</span>
+                <h2 class="text-5xl sm:text-6xl md:text-7xl font-black uppercase text-white mt-4 tracking-tighter text-glow font-sans">Ready for Python & AI Roles</h2>
+                <p class="text-gray-400 font-mono mt-5 max-w-md mx-auto text-sm leading-relaxed">
+                    Actively seeking production-ready engineering opportunities and collaborative challenges.
+                </p>
+                <div class="mt-8 flex flex-wrap justify-center gap-4 font-mono text-xs md:text-sm">
+                    <a href="mailto:aakshat4444@gmail.com" class="px-7 py-3.5 bg-cyberCyan text-black font-extrabold rounded-xl hover:bg-white transition shadow-lg shadow-cyberCyan/25">
+                        EMAIL ME
+                    </a>
+                    <a href="https://linkedin.com/in/akshat-agrawal-b62b8b344" target="_blank" rel="noopener noreferrer" class="px-7 py-3.5 linear-card text-white font-extrabold rounded-xl hover:border-cyberCyan transition">
+                        LINKEDIN
+                    </a>
+                    <a href="https://github.com/Akshat144" target="_blank" rel="noopener noreferrer" class="px-7 py-3.5 linear-card text-white font-extrabold rounded-xl hover:border-cyberCyan transition">
+                        GITHUB
+                    </a>
+                </div>
+                <div class="mt-16 font-mono text-[11px] text-gray-500">
+                    AKSHAT AGRAWAL © 2026 // CYBERNETIC LINEAR PORTFOLIO
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Three.js Ambient Particle Background -->
     <script>
         const container = document.getElementById('canvas-container');
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-        
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        container.appendChild(renderer.domElement);
-
-        // Spatial Particle Field
-        const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 2000;
-        const posArray = new Float32Array(particlesCount * 3);
-
-        for(let i = 0; i < particlesCount * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 20;
-        }
-
-        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-        const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.015,
-            color: 0x00f2fe,
-            transparent: true,
-            opacity: 0.75,
-            blending: THREE.AdditiveBlending
-        });
-
-        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-        scene.add(particlesMesh);
-
-        // Central Wireframe Globe
-        const globeGeometry = new THREE.IcosahedronGeometry(3.2, 2);
-        const globeMaterial = new THREE.MeshBasicMaterial({
-            color: 0x4facfe,
-            wireframe: true,
-            transparent: true,
-            opacity: 0.18
-        });
-        const globe = new THREE.Mesh(globeGeometry, globeMaterial);
-        scene.add(globe);
-
-        camera.position.z = 5;
-
-        let mouseX = 0;
-        let mouseY = 0;
-        let targetX = 0;
-        let targetY = 0;
-
-        document.addEventListener('mousemove', (event) => {
-            mouseX = (event.clientX - window.innerWidth / 2) / 1000;
-            mouseY = (event.clientY - window.innerHeight / 2) / 1000;
-        });
-
-        let scrollY = window.scrollY;
-        window.addEventListener('scroll', () => {
-            scrollY = window.scrollY;
-        });
-
-        const clock = new THREE.Clock();
-
-        function animate() {
-            requestAnimationFrame(animate);
-            const elapsedTime = clock.getElapsedTime();
-
-            targetX = mouseX * 0.8;
-            targetY = mouseY * 0.8;
-
-            particlesMesh.rotation.y = elapsedTime * 0.03 + (targetX * 1.5);
-            particlesMesh.rotation.x = elapsedTime * 0.02 + (targetY * 1.5);
-
-            globe.rotation.y = elapsedTime * 0.06;
-            globe.rotation.x = elapsedTime * 0.04;
-
-            camera.position.y = -scrollY * 0.0018;
-
-            renderer.render(scene, camera);
-        }
-        animate();
-
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
+        if (container) {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            
             renderer.setSize(window.innerWidth, window.innerHeight);
-        });
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.setClearColor(0x000000, 0.1);
+            container.appendChild(renderer.domElement);
+
+            // Particles
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 1500;
+            const posArray = new Float32Array(particlesCount * 3);
+
+            for(let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 20;
+            }
+
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.015,
+                color: 0x00f2fe,
+                transparent: true,
+                opacity: 0.6,
+                sizeAttenuation: true,
+                blending: THREE.AdditiveBlending
+            });
+
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+
+            // Wireframe Globe
+            const globeGeometry = new THREE.IcosahedronGeometry(3.2, 2);
+            const globeMaterial = new THREE.MeshBasicMaterial({
+                color: 0x4facfe,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.12
+            });
+            const globe = new THREE.Mesh(globeGeometry, globeMaterial);
+            scene.add(globe);
+
+            camera.position.z = 5;
+
+            let mouseX = 0;
+            let mouseY = 0;
+
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX - window.innerWidth / 2) / 1000;
+                mouseY = (event.clientY - window.innerHeight / 2) / 1000;
+            });
+
+            let scrollY = window.scrollY;
+            window.addEventListener('scroll', () => {
+                scrollY = window.scrollY;
+            });
+
+            const clock = new THREE.Clock();
+
+            function animate() {
+                requestAnimationFrame(animate);
+                const elapsedTime = clock.getElapsedTime();
+
+                particlesMesh.rotation.y = elapsedTime * 0.03 + (mouseX * 1.5);
+                particlesMesh.rotation.x = elapsedTime * 0.02 + (mouseY * 1.5);
+
+                globe.rotation.y = elapsedTime * 0.06;
+                globe.rotation.x = elapsedTime * 0.04;
+
+                camera.position.y = -scrollY * 0.0015;
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
     </script>
 
-    <!-- GSAP ScrollTrigger Precision Trigger Points -->
+    <!-- GSAP ScrollTrigger Animations -->
     <script>
-        gsap.registerPlugin(ScrollTrigger);
+        if (typeof gsap !== 'undefined' && gsap.registerPlugin) {
+            gsap.registerPlugin(ScrollTrigger);
 
-        gsap.utils.toArray('.reveal-up').forEach((elem) => {
-            gsap.to(elem, {
-                scrollTrigger: {
-                    trigger: elem,
-                    start: 'top 85%',
-                    toggleActions: 'play none none reverse'
-                },
-                y: 0,
-                opacity: 1,
-                duration: 0.9,
-                ease: 'power3.out'
+            gsap.utils.toArray('.reveal-up').forEach((elem) => {
+                gsap.to(elem, {
+                    scrollTrigger: {
+                        trigger: elem,
+                        start: 'top 85%',
+                        toggleActions: 'play none none reverse'
+                    },
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.9,
+                    ease: 'power3.out'
+                });
             });
-        });
 
-        gsap.utils.toArray('.reveal-left').forEach((elem) => {
-            gsap.to(elem, {
-                scrollTrigger: {
-                    trigger: elem,
-                    start: 'top 85%',
-                    toggleActions: 'play none none reverse'
-                },
-                x: 0,
-                opacity: 1,
-                duration: 0.9,
-                ease: 'power3.out'
+            gsap.utils.toArray('.reveal-left').forEach((elem) => {
+                gsap.to(elem, {
+                    scrollTrigger: {
+                        trigger: elem,
+                        start: 'top 85%',
+                        toggleActions: 'play none none reverse'
+                    },
+                    x: 0,
+                    opacity: 1,
+                    duration: 0.9,
+                    ease: 'power3.out'
+                });
             });
-        });
 
-        gsap.utils.toArray('.reveal-right').forEach((elem) => {
-            gsap.to(elem, {
-                scrollTrigger: {
-                    trigger: elem,
-                    start: 'top 85%',
-                    toggleActions: 'play none none reverse'
-                },
-                x: 0,
-                opacity: 1,
-                duration: 0.9,
-                ease: 'power3.out'
+            gsap.utils.toArray('.reveal-right').forEach((elem) => {
+                gsap.to(elem, {
+                    scrollTrigger: {
+                        trigger: elem,
+                        start: 'top 85%',
+                        toggleActions: 'play none none reverse'
+                    },
+                    x: 0,
+                    opacity: 1,
+                    duration: 0.9,
+                    ease: 'power3.out'
+                });
             });
-        });
 
-        gsap.utils.toArray('.reveal-scale').forEach((elem) => {
-            gsap.to(elem, {
-                scrollTrigger: {
-                    trigger: elem,
-                    start: 'top 90%',
-                    toggleActions: 'play none none reverse'
-                },
-                scale: 1,
-                opacity: 1,
-                duration: 0.8,
-                ease: 'back.out(1.4)'
+            gsap.utils.toArray('.reveal-scale').forEach((elem) => {
+                gsap.to(elem, {
+                    scrollTrigger: {
+                        trigger: elem,
+                        start: 'top 90%',
+                        toggleActions: 'play none none reverse'
+                    },
+                    scale: 1,
+                    opacity: 1,
+                    duration: 0.8,
+                    ease: 'back.out(1.4)'
+                });
             });
-        });
+        }
     </script>
 </body>
 </html>
